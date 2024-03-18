@@ -51,7 +51,7 @@ public class SubjectService {
         return subjects;
     }
 
-    public String modifyNameSubject(String code, Subject newSubject) throws ProjectException{
+    public String modifySubject(String code, Subject newSubject) throws ProjectException{
         String out = "Ninguna materia ha sido modificada";
         for (Subject subject : subjects ){
             if (subject.getSubjectCode().equals(code)){
