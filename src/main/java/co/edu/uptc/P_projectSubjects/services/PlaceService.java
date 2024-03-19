@@ -1,7 +1,9 @@
 package co.edu.uptc.P_projectSubjects.services;
 
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
+import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Place;
+import co.edu.uptc.P_projectSubjects.models.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class PlaceService {
 
         Place place1 = new Place("Salon 1","1111","Edificio 1");
         Place place2 = new Place("Salon 2","2222","Edificio 2");
-        Place place3 = new Place("Salon 3","333","Edificio 3");
+        Place place3 = new Place("Salon 3","3333","Edificio 3");
 
         places.add(place1);
         places.add(place2);
@@ -64,5 +66,20 @@ public class PlaceService {
         return out;
     }
 
-
+    public Place getPlaceByCode(String code) throws ProjectException{
+        try{
+            for (Place place : places){
+                Place newPlace = new Place();
+                newPlace.setLocation(place.getLocation());
+                newPlace.setName(place.getName());
+                newPlace.setPlaceCode(place.getPlaceCode());
+                if (newPlace.getPlaceCode().equals(code)){
+                    return newPlace;
+                }
+            }
+        } catch (Exception e) {
+            throw new ProjectException(TypeMessage.NOT_FOUND_FILE);
+        }
+        return null;
+    }
 }

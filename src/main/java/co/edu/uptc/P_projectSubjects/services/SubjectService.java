@@ -1,6 +1,7 @@
 package co.edu.uptc.P_projectSubjects.services;
 
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
+import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 
 import java.util.ArrayList;
@@ -63,5 +64,20 @@ public class SubjectService {
         return out;
     }
 
+    public Subject getSubjectByCode(String code) throws ProjectException{
+        try{
+        for (Subject subject : subjects){
+            Subject newSubject = new Subject();
+            newSubject.setSubjectCode(subject.getSubjectCode());
+            newSubject.setName(subject.getName());
+            if (newSubject.getSubjectCode().equals(code)){
+                return newSubject;
+            }
+        }
+        } catch (Exception e) {
+            throw new ProjectException(TypeMessage.NOT_FOUND_FILE);
+        }
+        return null;
+    }
 
 }
