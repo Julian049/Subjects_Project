@@ -3,7 +3,9 @@ package co.edu.uptc.P_projectSubjects.controllers;
 import co.edu.uptc.P_projectSubjects.dtos.GroupDto;
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.models.Group;
+import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.P_projectSubjects.services.GroupService;
+import co.edu.uptc.P_projectSubjects.services.SubjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +66,35 @@ public class GroupController {
     public ResponseEntity<Object> modifyGroup(@PathVariable String subjectCode, @PathVariable String placeCode, @RequestBody ArrayList<String> schedule) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.modifyGroup(placeCode, subjectCode,schedule));
+        } catch (ProjectException e) {
+            return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
+        }
+    }
+
+    @GetMapping("/getSubjectsByPlace/{placeCode}")
+    public ResponseEntity<Object> getSubjectsByPlace(@PathVariable String placeCode) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getSubjectsWithSamePlace(placeCode));
+        } catch (ProjectException e) {
+            return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
+        }
+    }
+
+    @GetMapping("/SubjectsWithMoreGroup")
+    public ResponseEntity<Object> SubjectsWithMoreGroup() {
+        SubjectService subjectService = new SubjectService();
+        try {
+            List<Subject> list = subjectService.getSubjects();
+            return ResponseEntity.status(HttpStatus.OK).body(service.getSubjectsWithMoreGroup(list));
+        } catch (ProjectException e) {
+            return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
+        }
+    }
+
+        @GetMapping("/getSubjectsBySchedule/{schedule}")
+    public ResponseEntity<Object> getSubjectsBySchedule(@PathVariable String schedule) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getSubjectsWithSameSchedule(schedule));
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
         }

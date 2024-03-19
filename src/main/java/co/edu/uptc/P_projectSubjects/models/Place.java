@@ -8,7 +8,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 public class Place {
-private String name;
-private String placeCode;
-private String location;
+    private String name;
+    private String placeCode;
+    private String location;
 }

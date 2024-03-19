@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public enum TypeMessage {
     NOT_FOUND(HttpStatus.BAD_REQUEST.value(), "Not Found", 404),
+    MAX_ITEMS(HttpStatus.BAD_REQUEST.value(), "Max items reached", 405  ),
     NOT_SAVED(HttpStatus.BAD_REQUEST.value(), "Not Saved", 410),
     INFORMATION_INCOMPLETE(HttpStatus.BAD_REQUEST.value(), "Infomration Incomplete", 430),
     NOT_FOUND_FILE(HttpStatus.BAD_REQUEST.value(), "Not Found file", 420),
