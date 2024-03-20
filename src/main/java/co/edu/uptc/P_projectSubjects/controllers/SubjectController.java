@@ -18,7 +18,7 @@ public class SubjectController {
     public ResponseEntity<Object> postSubject(@RequestBody Subject subject) {
         try {
             service.add(subject);
-            return ResponseEntity.status(HttpStatus.OK).body("Subject added" + subject.toString());
+            return ResponseEntity.status(HttpStatus.OK).body("Subject added " + subject.toString());
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp())
                     .body(e.getMenssage());

@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import co.edu.uptc.services.dynamic.UptcList;
 import java.util.List;
 
 @RestController
@@ -63,7 +63,7 @@ public class GroupController {
     }
 
     @PostMapping("/modify/{subjectCode}/{placeCode}")
-    public ResponseEntity<Object> modifyGroup(@PathVariable String subjectCode, @PathVariable String placeCode, @RequestBody ArrayList<String> schedule) {
+    public ResponseEntity<Object> modifyGroup(@PathVariable String subjectCode, @PathVariable String placeCode, @RequestBody UptcList<String> schedule) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.modifyGroup(placeCode, subjectCode,schedule));
         } catch (ProjectException e) {

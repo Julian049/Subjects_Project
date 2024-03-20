@@ -4,20 +4,20 @@ import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Group;
 import co.edu.uptc.P_projectSubjects.models.Subject;
+import co.edu.uptc.services.dynamic.UptcList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectService {
 
-    List<Subject> subjects = new ArrayList<>();
+    List<Subject> subjects = new UptcList<>();
 
     public SubjectService() {
         this.subjects = loadSubjects();
     }
 
     private List<Subject> loadSubjects() {
-        List<Subject> subjects = new ArrayList<>();
+        List<Subject> subjects = new UptcList<>();
 
         Subject subject1 = new Subject("Calculo III", "8108213");
         Subject subject2 = new Subject("Fisica II", "8108214");
@@ -37,7 +37,7 @@ public class SubjectService {
 
     public String deleteSubject(String code) throws ProjectException{
         String out = "No se ha eliminado ninguna materia";
-        List<Subject> listAux = new ArrayList<>();
+        List<Subject> listAux = new UptcList<>();
         for (Subject subject : subjects){
             if (!subject.getSubjectCode().equals(code)){
                 listAux.add(subject);

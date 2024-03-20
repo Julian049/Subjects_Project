@@ -6,20 +6,20 @@ import co.edu.uptc.P_projectSubjects.models.Group;
 import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
+import co.edu.uptc.services.dynamic.UptcList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupService {
 
-    List<Group> groups = new ArrayList<>();
+    List<Group> groups = new UptcList<>();
 
     public GroupService() {
         this.groups = loadGroups();
     }
 
     private List<Group> loadGroups() {
-        List<Group> groups = new ArrayList<>();
+        List<Group> groups = new UptcList<>();
 
         String subject1 = "8108213";
         String subject2 = "8108214";
@@ -30,17 +30,17 @@ public class GroupService {
         String place3 = "3333";
 
 
-        ArrayList<String> schedule1 = new ArrayList<>();
+        UptcList<String> schedule1 = new UptcList<>();
         schedule1.add("Lunes 8:00-10:00");
         schedule1.add("Miercoles 8:00-10:00");
         schedule1.add("Viernes 8:00-10:00");
 
-        ArrayList<String> schedule2 = new ArrayList<>();
+        UptcList<String> schedule2 = new UptcList<>();
         schedule2.add("Martes 8:00-10:00");
         schedule2.add("Jueves 8:00-10:00");
         schedule2.add("Viernes 10:00-12:00");
 
-        ArrayList<String> schedule3 = new ArrayList<>();
+        UptcList<String> schedule3 = new UptcList<>();
         schedule3.add("Lunes 10:00-12:00");
         schedule3.add("Miercoles 10:00-12:00");
         schedule3.add("Viernes 10:00-12:00");
@@ -87,7 +87,7 @@ public class GroupService {
 
     public String deleteGroup(Group groupToDelete) throws ProjectException {
         String out = "No se ha eliminado ningun grupo";
-        List<Group> listAux = new ArrayList<>();
+        List<Group> listAux = new UptcList<>();
         for (Group group : groups) {
             if (!compareGroups(group, groupToDelete)) {
                 listAux.add(group);
@@ -103,7 +103,7 @@ public class GroupService {
         return GroupDto.fromGroupList(groups);
     }
 
-    public String modifyGroup(String placeCode, String subjectCode, ArrayList<String> newSchedule) throws ProjectException {
+    public String modifyGroup(String placeCode, String subjectCode, UptcList<String> newSchedule) throws ProjectException {
         String out = "Ningun grupo ha sido modificada";
         for (Group group : groups) {
             if (group.getSubjectCode().equals(subjectCode) && group.getPlaceCode().equals(placeCode)) {
@@ -115,7 +115,7 @@ public class GroupService {
     }
 
     public List<Subject> getSubjectsWithSamePlace(String placeCode) throws ProjectException {
-        List<Subject> subjects = new ArrayList<>();
+        List<Subject> subjects = new UptcList<>();
         for (GroupDto group : this.getGroupsDto()) {
             if (group.getPlace().getPlaceCode().equals(placeCode)) {
                 subjects.add(group.getSubject());
@@ -125,7 +125,7 @@ public class GroupService {
     }
 
     public List<Subject> getSubjectsWithMoreGroup(List<Subject> subjects) throws ProjectException {
-        List<Subject> subjectsWithMoreGroup = new ArrayList<>();
+        List<Subject> subjectsWithMoreGroup = new UptcList<>();
         for (Subject subject : subjects) {
             int count = 0;
             for (GroupDto groupDto : this.getGroupsDto()) {
@@ -145,7 +145,7 @@ public class GroupService {
     }
 
     public List<Subject> getSubjectsWithSameSchedule(String schedule) throws ProjectException {
-        List<Subject> subjects = new ArrayList<>();
+        List<Subject> subjects = new UptcList<>();
         for (GroupDto group : this.getGroupsDto()) {
             for (String eachSchedule : group.getSchedule()){
                 if (eachSchedule.equals(schedule)){

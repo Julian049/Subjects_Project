@@ -6,10 +6,10 @@ import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.P_projectSubjects.services.PlaceService;
 import co.edu.uptc.P_projectSubjects.services.SubjectService;
+import co.edu.uptc.services.dynamic.UptcList;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,7 +18,7 @@ public class GroupDto {
 
     private Subject subject;
     private Place place;
-    private ArrayList<String> schedule;
+    private UptcList<String> schedule;
 
     public static GroupDto fromGroup(Group group) throws ProjectException{
         SubjectService subjectService = new SubjectService();
@@ -31,7 +31,7 @@ public class GroupDto {
     }
 
     public static List<GroupDto> fromGroupList(List<Group> groups)throws ProjectException{
-        List<GroupDto> groupDtos = new ArrayList<>();
+        List<GroupDto> groupDtos = new UptcList<>();
         for (Group group : groups) {
             groupDtos.add(fromGroup(group));
         }

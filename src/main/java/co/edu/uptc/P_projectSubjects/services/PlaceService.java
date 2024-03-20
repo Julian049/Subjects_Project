@@ -4,20 +4,20 @@ import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.P_projectSubjects.models.Subject;
+import co.edu.uptc.services.dynamic.UptcList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceService {
 
-    List<Place> places = new ArrayList<>();
+    List<Place> places = new UptcList<>();
 
     public PlaceService() {
         this.places = loadPlaces();
     }
 
     private List<Place> loadPlaces() {
-        List<Place> places = new ArrayList<>();
+        List<Place> places = new UptcList<>();
 
         Place place1 = new Place("Salon 1","1111","Edificio 1");
         Place place2 = new Place("Salon 2","2222","Edificio 2");
@@ -37,7 +37,7 @@ public class PlaceService {
 
     public String deletePlace(String code) throws ProjectException{
         String out = "No se ha eliminado ningun lugar";
-        List<Place> listAux = new ArrayList<>();
+        List<Place> listAux = new UptcList<>();
         for (Place place : places){
             if (!place.getPlaceCode().equals(code)){
                 listAux.add(place);
