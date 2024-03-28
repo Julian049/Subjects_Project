@@ -2,7 +2,6 @@ package co.edu.uptc.P_projectSubjects.services;
 
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
-import co.edu.uptc.P_projectSubjects.models.Group;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.services.dynamic.UptcList;
 
@@ -28,55 +27,57 @@ public class SubjectService {
         subjects.add(subject3);
 
         return subjects;
-
     }
 
-    public void add(Subject subject) throws ProjectException{
+    public void add(Subject subject) throws ProjectException {
         subjects.add(subject);
     }
 
-    public String deleteSubject(String code) throws ProjectException{
-        String out = "No se ha eliminado ninguna materia";
+    public Subject deleteSubject(String code) throws ProjectException {
         List<Subject> listAux = new UptcList<>();
-        for (Subject subject : subjects){
-            if (!subject.getSubjectCode().equals(code)){
+        Subject subjectDelete = null;
+        for (Subject subject : subjects) {
+            if (!subject.getSubjectCode().equals(code)) {
                 listAux.add(subject);
-            }else{
-                out = "Se ha eliminado la materia";
+            } else {
+                subjectDelete = subject;
             }
         }
         this.subjects = listAux;
-        return out;
+        if (subjectDelete == null) throw new ProjectException(TypeMessage.NOT_FOUND);
+        return subjectDelete;
     }
 
     public List<Subject> getSubjects() throws ProjectException {
+        if (subjects.size() == 0) throw new ProjectException(TypeMessage.NO_ITEMS);
         return subjects;
     }
 
-    public String modifySubject(String code, Subject newSubject) throws ProjectException{
-        String out = "Ninguna materia ha sido modificada";
-        for (Subject subject : subjects ){
-            if (subject.getSubjectCode().equals(code)){
+    public Subject modifySubject(String code, Subject newSubject) throws ProjectException {
+        Subject modifiedSubject = null;
+        for (Subject subject : subjects) {
+            if (subject.getSubjectCode().equals(code)) {
+                modifiedSubject = subject;
                 subject.setSubjectCode(newSubject.getSubjectCode());
                 subject.setName(newSubject.getName());
-                out = "Se ha modificado la materia";
             }
         }
-        return out;
+        if (modifiedSubject == null) throw new ProjectException(TypeMessage.NOT_FOUND);
+        return modifiedSubject;
     }
 
-    public Subject getSubjectByCode(String code) throws ProjectException{
-        try{
-        for (Subject subject : subjects){
-            Subject newSubject = new Subject();
-            newSubject.setSubjectCode(subject.getSubjectCode());
-            newSubject.setName(subject.getName());
-            if (newSubject.getSubjectCode().equals(code)){
-                return newSubject;
+    public Subject getSubjectByCode(String code) throws ProjectException {
+        try {
+            for (Subject subject : subjects) {
+                Subject newSubject = new Subject();
+                newSubject.setSubjectCode(subject.getSubjectCode());
+                newSubject.setName(subject.getName());
+                if (newSubject.getSubjectCode().equals(code)) {
+                    return newSubject;
+                }
             }
-        }
         } catch (Exception e) {
-            throw new ProjectException(TypeMessage.NOT_FOUND_FILE);
+            throw new ProjectException(TypeMessage.NOT_FOUND);
         }
         return null;
     }

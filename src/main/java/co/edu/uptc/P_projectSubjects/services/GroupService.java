@@ -1,9 +1,8 @@
 package co.edu.uptc.P_projectSubjects.services;
 
-import co.edu.uptc.P_projectSubjects.dtos.GroupDto;
+import co.edu.uptc.P_projectSubjects.dtos.GroupDto2;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Group;
-import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.services.dynamic.UptcList;
@@ -58,15 +57,12 @@ public class GroupService {
     }
 
     public List<Group> getGroups() throws ProjectException {
+        if (groups.size() == 0) throw new ProjectException(TypeMessage.NO_ITEMS);
         return groups;
     }
 
     public void add(Group group) throws ProjectException {
-        if (group.getSchedule().size() <= 3){
             groups.add(group);
-        }else {
-            throw new ProjectException(TypeMessage.MAX_ITEMS);
-        }
     }
 
     private boolean compareGroups(Group group1, Group group2) {
@@ -79,44 +75,48 @@ public class GroupService {
             for (String schedule2 : group2.getSchedule()) {
                 if (schedule1.equals(schedule2)) {
                     out = true;
+                    break;
                 }
             }
         }
         return out;
     }
 
-    public String deleteGroup(Group groupToDelete) throws ProjectException {
-        String out = "No se ha eliminado ningun grupo";
+    public Group deleteGroup(Group groupToDelete) throws ProjectException {
         List<Group> listAux = new UptcList<>();
+        Group groupDelete = null;
         for (Group group : groups) {
             if (!compareGroups(group, groupToDelete)) {
                 listAux.add(group);
             } else {
-                out = "Se ha eliminado el grupo";
+                groupDelete = group;
             }
         }
         this.groups = listAux;
-        return out;
+        if (groupDelete == null) throw new ProjectException(TypeMessage.NOT_FOUND);
+        return groupDelete;
     }
 
-    public List<GroupDto> getGroupsDto() throws ProjectException {
-        return GroupDto.fromGroupList(groups);
+    public List<GroupDto2> getGroupsDto() throws ProjectException {
+        return GroupDto2.fromGroupList(groups);
     }
 
-    public String modifyGroup(String placeCode, String subjectCode, UptcList<String> newSchedule) throws ProjectException {
-        String out = "Ningun grupo ha sido modificada";
+    public Group modifyGroup(String placeCode, String subjectCode, Group newGroup) throws ProjectException {
+        Group modifiedGroup = null;
         for (Group group : groups) {
             if (group.getSubjectCode().equals(subjectCode) && group.getPlaceCode().equals(placeCode)) {
-                group.setSchedule(newSchedule);
-                out = "Se ha modificado el grupo";
+                modifiedGroup = group;
+                group.setSchedule(newGroup.getSchedule());
+                group.setSubjectCode(newGroup.getSubjectCode());
+                group.setPlaceCode(newGroup.getPlaceCode());
             }
         }
-        return out;
+        return modifiedGroup;
     }
 
     public List<Subject> getSubjectsWithSamePlace(String placeCode) throws ProjectException {
         List<Subject> subjects = new UptcList<>();
-        for (GroupDto group : this.getGroupsDto()) {
+        for (GroupDto2 group : this.getGroupsDto()) {
             if (group.getPlace().getPlaceCode().equals(placeCode)) {
                 subjects.add(group.getSubject());
             }
@@ -128,8 +128,8 @@ public class GroupService {
         List<Subject> subjectsWithMoreGroup = new UptcList<>();
         for (Subject subject : subjects) {
             int count = 0;
-            for (GroupDto groupDto : this.getGroupsDto()) {
-                if (compareSubjects(subject,groupDto.getSubject())){
+            for (GroupDto2 groupDto2 : this.getGroupsDto()) {
+                if (compareSubjects(subject, groupDto2.getSubject())){
                     count++;
                 }
             }
@@ -146,7 +146,7 @@ public class GroupService {
 
     public List<Subject> getSubjectsWithSameSchedule(String schedule) throws ProjectException {
         List<Subject> subjects = new UptcList<>();
-        for (GroupDto group : this.getGroupsDto()) {
+        for (GroupDto2 group : this.getGroupsDto()) {
             for (String eachSchedule : group.getSchedule()){
                 if (eachSchedule.equals(schedule)){
                     subjects.add(group.getSubject());

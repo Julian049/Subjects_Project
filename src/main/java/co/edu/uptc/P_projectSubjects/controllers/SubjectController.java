@@ -1,5 +1,6 @@
 package co.edu.uptc.P_projectSubjects.controllers;
 
+import co.edu.uptc.P_projectSubjects.dtos.SubjectDto;
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.P_projectSubjects.services.SubjectService;
@@ -15,10 +16,11 @@ public class SubjectController {
     SubjectService service = new SubjectService();
 
     @PostMapping()
-    public ResponseEntity<Object> postSubject(@RequestBody Subject subject) {
+    public ResponseEntity<Object> postSubject(@RequestBody SubjectDto subjectDto) {
         try {
-            service.add(subject);
-            return ResponseEntity.status(HttpStatus.OK).body("Subject added " + subject.toString());
+            SubjectDto.validateSubject(subjectDto);
+            service.add(SubjectDto.toSubject(subjectDto));
+            return ResponseEntity.status(HttpStatus.OK).body(subjectDto);
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp())
                     .body(e.getMenssage());
@@ -30,7 +32,7 @@ public class SubjectController {
         List<Subject> subjects;
         try {
             subjects = service.getSubjects();
-            return ResponseEntity.status(HttpStatus.OK).body(subjects);
+            return ResponseEntity.status(HttpStatus.OK).body(SubjectDto.fromSubjectList(subjects));
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp())
                     .body(e.getMenssage());
@@ -40,7 +42,7 @@ public class SubjectController {
     @GetMapping("/delete/{subjectCode}")
     public ResponseEntity<Object> deleteSubject(@PathVariable String subjectCode) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.deleteSubject(subjectCode));
+            return ResponseEntity.status(HttpStatus.OK).body(SubjectDto.fromSubject(service.deleteSubject(subjectCode)));
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
         }
@@ -49,7 +51,7 @@ public class SubjectController {
     @PostMapping("/modify/{subjectCode}")
     public ResponseEntity<Object> modifySubject(@PathVariable String subjectCode, @RequestBody Subject subject) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.modifySubject(subjectCode, subject));
+            return ResponseEntity.status(HttpStatus.OK).body(SubjectDto.fromSubject(service.modifySubject(subjectCode, subject)));
         } catch (ProjectException e) {
             return ResponseEntity.status(e.getMenssage().getCodeHttp()).body(e.getMenssage());
         }

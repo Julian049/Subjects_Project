@@ -3,7 +3,6 @@ package co.edu.uptc.P_projectSubjects.services;
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
 import co.edu.uptc.P_projectSubjects.models.Place;
-import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.services.dynamic.UptcList;
 
 import java.util.List;
@@ -35,35 +34,38 @@ public class PlaceService {
         places.add(place);
     }
 
-    public String deletePlace(String code) throws ProjectException{
-        String out = "No se ha eliminado ningun lugar";
+    public Place deletePlace(String code) throws ProjectException{
         List<Place> listAux = new UptcList<>();
+        Place placeDelete = null;
         for (Place place : places){
             if (!place.getPlaceCode().equals(code)){
                 listAux.add(place);
             }else{
-                out = "Se ha eliminado el lugar";
+                placeDelete = place;
             }
         }
         this.places = listAux;
-        return out;
+        if (placeDelete == null) throw new ProjectException(TypeMessage.NOT_FOUND);
+        return placeDelete;
     }
 
     public List<Place> getPlaces() throws ProjectException {
+        if (places.size() == 0) throw new ProjectException(TypeMessage.NO_ITEMS);
         return places;
     }
 
-    public String modifyPlace(String code, Place newPlace) throws ProjectException{
-        String out = "No se ha modificado ningun lugar";
+    public Place modifyPlace(String code, Place newPlace) throws ProjectException{
+        Place modifiedPlace = null;
         for (Place place : places ){
             if (place.getPlaceCode().equals(code)){
+                modifiedPlace = place;
                 place.setPlaceCode(newPlace.getPlaceCode());
                 place.setName(newPlace.getName());
                 place.setLocation(newPlace.getLocation());
-                out = "Se ha modificado el lugar";
             }
         }
-        return out;
+        if (modifiedPlace == null) throw new ProjectException(TypeMessage.NOT_FOUND);
+        return modifiedPlace;
     }
 
     public Place getPlaceByCode(String code) throws ProjectException{
@@ -78,7 +80,7 @@ public class PlaceService {
                 }
             }
         } catch (Exception e) {
-            throw new ProjectException(TypeMessage.NOT_FOUND_FILE);
+            throw new ProjectException(TypeMessage.NOT_FOUND);
         }
         return null;
     }
