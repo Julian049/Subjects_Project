@@ -226,13 +226,17 @@ Para modificar un grupo, podrá hacerlo bajo un post y usando el siguiente enlac
 
 En donde, `subjectCode` será el código de la asignatura y, `placeCode` el código del lugar del grupo, esto debido a que el código necesita ambos parámetros para encontrar el grupo que querrá modificar; además, tendrá que poner un body para reescribir la información, siguiendo la siguiente estructura:
 
-> [
-    "Mod 8:00-10:00",
-    "Mod 8:00-10:00",
-    "Mod 8:00-10:00"
-]
+> {
+        "subjectCode": "mod",
+        "placeCode": "mod",
+        "schedule": [
+            "mod 8:00-10:00",
+            "mod 8:00-10:00",
+            "mod 8:00-10:00"
+        ]
+    }
 
-Esto modificará únicamente el horario del grupo.
+Esto modificará toda la informacion del grupo.
 
 ### Consultas
 
@@ -243,7 +247,7 @@ Pasando a métodos más generales, tenemos los siguientes:
 El método genera un listado de las asignaturas que están en el mismo lugar. Bajo un get se tiene que ejecutar el siguiente enlace:
 
 `http://localhost:8080/group/getSubjectsByPlace/code`
-
+``
 Donde, `code` es el código del lugar al cual quiere obtener las asignaturas que tiene enlazadas.
 
 #### Asignaturas con más de un grupo
