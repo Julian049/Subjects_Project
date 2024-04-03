@@ -2,6 +2,7 @@ package co.edu.uptc.P_projectSubjects.services;
 
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
+import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.P_projectSubjects.models.Subject;
 import co.edu.uptc.services.dynamic.UptcList;
 
@@ -30,7 +31,22 @@ public class SubjectService {
     }
 
     public void add(Subject subject) throws ProjectException {
-        subjects.add(subject);
+        if (!verifySubjectAlreadyExist(subject)) {
+            subjects.add(subject);
+        }else{
+            throw new ProjectException(TypeMessage.ALREADY_EXISTS);
+        }
+    }
+
+    private boolean verifySubjectAlreadyExist(Subject subject) {
+        boolean noExists = false;
+        for (Subject subject1 : subjects) {
+            if (subject1.getName().equals(subject.getName()) || subject1.getSubjectCode().equals(subject.getSubjectCode())) {
+                noExists = true;
+                break;
+            }
+        }
+        return noExists;
     }
 
     public Subject deleteSubject(String code) throws ProjectException {

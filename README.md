@@ -5,6 +5,8 @@ El proyecto consta del manejo de asignaturas, que permite manejar distintas cons
 
 ### Cómo usar la aplicación
 
+IMPORTANTE: Tanto el proyecto como la libreria estan trabajados en java 17. Por lo que es recomendable usarlo en java 17 o si no es posible, en alguna version superior. 
+
 Para poder usar cada una de las características de la aplicación, hay que tener en cuenta unas consideraciones antes.
 
 ### Al ejecutar el código nativo (Desde el IDE)
@@ -64,7 +66,7 @@ Para obtener una lista de las materias que están cargadas en el sistema, es nec
 Con esto podrá obtener todas las asignaturas en formato JSON.
 
 ##### Eliminar
-Para eliminar una asignatura existente, tendrá que hacer la solicitud bajo un get y acceder a la siguiente dirección.
+Para eliminar una asignatura existente, tendrá que hacer la solicitud bajo un delete y acceder a la siguiente dirección.
 
 `http://localhost:8080/subject/delete/code`
 
@@ -112,7 +114,7 @@ Para obtener una lista de los lugares, tendrá que acceder al siguiente enlace b
 `http://localhost:8080/place`
 
 ##### Eliminar
-Para eliminar un lugar del sistema, podrá hacerlo bajo un get usando el siguiente enlace:
+Para eliminar un lugar del sistema, podrá hacerlo bajo un delete usando el siguiente enlace:
 
 `http://localhost:8080/place/delete/code`
 
@@ -201,7 +203,7 @@ Se tendrá que ejecutar el siguiente enlace:
 `http://localhost:8080/group/allGroups` </br>
 
 ##### Eliminar
-Para eliminar un grupo del sistema, podrá hacerlo bajo un get usando el siguiente enlace:
+Para eliminar un grupo del sistema, podrá hacerlo bajo un delete usando el siguiente enlace:
 
 `http://localhost:8080/group/delete`
 

@@ -7,6 +7,7 @@ public enum TypeMessage {
     NO_ITEMS(HttpStatus.BAD_REQUEST.value(), "No items in the list", 405),
     MAX_ITEMS(HttpStatus.BAD_REQUEST.value(), "Max items reached", 406  ),
     INFORMATION_INCOMPLETE(HttpStatus.BAD_REQUEST.value(), "Information Incomplete", 407),
+    ALREADY_EXISTS(HttpStatus.BAD_REQUEST.value(), "The information already exists in the system", 408),
     SAVE(HttpStatus.OK.value(), "Saved", 210);
 
     public final String message;

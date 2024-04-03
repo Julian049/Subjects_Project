@@ -55,7 +55,7 @@ public class GroupController {
         }
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteGroup(@RequestBody GroupDto groupDto) {
         try {
             Group group = GroupDto.toGroup(groupDto);

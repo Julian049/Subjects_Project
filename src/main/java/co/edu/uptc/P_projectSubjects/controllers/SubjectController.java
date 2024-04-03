@@ -39,7 +39,7 @@ public class SubjectController {
         }
     }
 
-    @GetMapping("/delete/{subjectCode}")
+    @DeleteMapping("/delete/{subjectCode}")
     public ResponseEntity<Object> deleteSubject(@PathVariable String subjectCode) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(SubjectDto.fromSubject(service.deleteSubject(subjectCode)));

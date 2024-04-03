@@ -62,7 +62,22 @@ public class GroupService {
     }
 
     public void add(Group group) throws ProjectException {
+        if (!verifyGroupAlreadyExist(group)) {
             groups.add(group);
+        }else{
+            throw new ProjectException(TypeMessage.ALREADY_EXISTS);
+        }
+    }
+
+    private boolean verifyGroupAlreadyExist(Group group) {
+        boolean noExists = false;
+        for (Group group1 : groups) {
+            if (group.getPlaceCode().equals(group1.getPlaceCode()) && group.getSubjectCode().equals(group1.getSubjectCode()) && compareSchedule(group1, group)) {
+                noExists = true;
+                break;
+            }
+        }
+        return noExists;
     }
 
     private boolean compareGroups(Group group1, Group group2) {
@@ -129,26 +144,26 @@ public class GroupService {
         for (Subject subject : subjects) {
             int count = 0;
             for (GroupDto2 groupDto2 : this.getGroupsDto()) {
-                if (compareSubjects(subject, groupDto2.getSubject())){
+                if (compareSubjects(subject, groupDto2.getSubject())) {
                     count++;
                 }
             }
-            if (count >= 2){
+            if (count >= 2) {
                 subjectsWithMoreGroup.add(subject);
             }
         }
         return subjectsWithMoreGroup;
     }
 
-    private boolean compareSubjects(Subject subject1,Subject subject2){
+    private boolean compareSubjects(Subject subject1, Subject subject2) {
         return subject1.getSubjectCode().equals(subject2.getSubjectCode()) && subject1.getName().equals(subject2.getName());
     }
 
     public List<Subject> getSubjectsWithSameSchedule(String schedule) throws ProjectException {
         List<Subject> subjects = new UptcList<>();
         for (GroupDto2 group : this.getGroupsDto()) {
-            for (String eachSchedule : group.getSchedule()){
-                if (eachSchedule.equals(schedule)){
+            for (String eachSchedule : group.getSchedule()) {
+                if (eachSchedule.equals(schedule)) {
                     subjects.add(group.getSubject());
                 }
             }

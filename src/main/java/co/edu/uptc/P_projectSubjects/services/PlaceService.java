@@ -2,6 +2,7 @@ package co.edu.uptc.P_projectSubjects.services;
 
 import co.edu.uptc.P_projectSubjects.exceptions.ProjectException;
 import co.edu.uptc.P_projectSubjects.exceptions.TypeMessage;
+import co.edu.uptc.P_projectSubjects.models.Group;
 import co.edu.uptc.P_projectSubjects.models.Place;
 import co.edu.uptc.services.dynamic.UptcList;
 
@@ -31,7 +32,22 @@ public class PlaceService {
     }
 
     public void add(Place place) throws ProjectException {
-        places.add(place);
+        if (!verifyPLaceAlreadyExist(place)) {
+            places.add(place);
+        }else{
+            throw new ProjectException(TypeMessage.ALREADY_EXISTS);
+        }
+    }
+
+    private boolean verifyPLaceAlreadyExist(Place place) {
+        boolean noExists = false;
+        for (Place place1 : places) {
+            if (place1.getPlaceCode().equals(place.getPlaceCode()) || place1.getLocation().equals(place.getLocation()) || place1.getName().equals(place.getName())) {
+                noExists = true;
+                break;
+            }
+        }
+        return noExists;
     }
 
     public Place deletePlace(String code) throws ProjectException{

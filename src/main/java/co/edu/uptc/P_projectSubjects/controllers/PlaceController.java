@@ -40,7 +40,7 @@ public class PlaceController {
         }
     }
 
-    @GetMapping("/delete/{placeCode}")
+    @DeleteMapping("/delete/{placeCode}")
     public ResponseEntity<Object> deletePlace(@PathVariable String placeCode) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(PlaceDto.fromPlace(service.deletePlace(placeCode)));
